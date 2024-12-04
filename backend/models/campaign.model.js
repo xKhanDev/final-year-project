@@ -1,0 +1,1 @@
+// title,category,images[],description,goalAmount,acheivedAmount,reports[{userId,reason}],creator,status,stars,donations[walletAddress,amount],donors[walletAddress]

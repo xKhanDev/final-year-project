@@ -1,0 +1,1 @@
+// ReportedBy, reportedUser, campaignId, reason

@@ -1,0 +1,1 @@
+// fullName, walletAddress, isBanned, reportCount, profilePicture, 
