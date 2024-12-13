@@ -17,11 +17,11 @@ const Hero:FC = () => {
         </p>
         <div className='flex items-center my-4 gap-4'>
           <button className='my_btn green_bg text-white'>
-            Get Started
+            Connect
           </button>
-          <button className='border-[0.5px] border-gray-400 border_btn flex items-center gap-2'>
+          <button className='border-[0.5px] border-gray-400 border_btn flex items-center gap-2 hover:bg-[#1b2836]'>
             <span>
-              Explore Campaigns
+              Explore More
             </span>
              <FaArrowRight />
           </button>
