@@ -1,8 +1,17 @@
 import React from 'react'
+import { Navbar, Hero, Works, Feature_Campaigns, Testimonials, FAQ, Footer } from './constant'
 
 const landing_page = () => {
   return (
-    <div>landing_page</div>
+    <div>
+      <Navbar />
+      <Hero />
+      <Works />
+      <Feature_Campaigns />
+      <Testimonials />
+      <FAQ />
+      <Footer />
+    </div>
   )
 }
 
