@@ -3,7 +3,7 @@ import { MdNavigateNext } from "react-icons/md";
 
 const Card:FC = () => {
   return (
-    <div className='lg:w-[30%] flex flex-col span_bg border-[0.5px] border-gray-500 rounded relative p-4'>
+    <div className='lg:w-[30%] md:w-[45%] w-full flex flex-col span_bg border-[0.5px] border-gray-500 rounded relative p-4'>
               <span className='absolute top-2 left-2 bg-gray-500 rounded-full p-3 text-white text-[10px] px-2 py-1'>Category</span>
               <img src="/poor.png" alt="campaign image" className='w-full h-32'/>
               <div className='w-full absolute left-0 top-20 flex items-center justify-between z-10'>

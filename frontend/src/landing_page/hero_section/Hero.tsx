@@ -3,7 +3,7 @@ import { FaArrowRight } from "react-icons/fa";
 
 const Hero:FC = () => {
   return (
-    <div className='w-full flex flex-col-reverse items-center lg:flex-row justify-between pt-2 md:pt-4 lg:pt-6'>
+    <div className='w-full flex flex-col-reverse items-center lg:flex-row md:flex-row justify-between pt-2 md:pt-4 lg:pt-6'>
       <div className='w-full lg:w-1/2 h-full flex flex-col justify-center my-6'>
         <h1 className='font-bold text-3xl md:text-4xl lg:text-5xl'>
         Empower Change. Make a Difference.
