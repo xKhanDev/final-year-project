@@ -3,7 +3,7 @@ import connectDB from './db/db.ts';
 
 import authRouter from "./routes/auth.routes.ts";
 import campaignRouter from "./routes/campaign.routes.ts";
-import dashboaredRouter from "./routes/dashboard.routes.js"
+import dashboaredRouter from "./routes/dashboard.routes.ts"
 
 const app:Application = express();
 
