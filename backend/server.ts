@@ -1,4 +1,5 @@
 import express,{ Application, Request, Response } from 'express'
+import connectDB from './db/db';
 
 const app:Application = express();
 
@@ -10,6 +11,7 @@ app.get("/api/v1/auth", (req:Request, res:Response):any => {
     return res.send("Hello World!");
 });
 
-app.listen(PORT, () => {    
+app.listen(PORT, () => { 
+    connectDB();   
     console.log(`Server running on port ${PORT}`);
 });
