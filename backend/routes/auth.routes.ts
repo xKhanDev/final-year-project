@@ -1,9 +1,12 @@
 import { Router } from "express";
-import {loginUser} from "../controllers/auth.controllers.ts"
+
+import {loginUser,updateNameAndImage} from "../controllers/auth.controllers.ts"
 import { upload } from "../middlewares/multer.middleware.ts";
+import protectRoutes from "../middlewares/protectRoute.ts";
 
 const router: Router = Router();
 
-router.post("/connect", upload.single("profilePicture"), loginUser);
+router.post("/connect", loginUser);
+router.post("/update_user",protectRoutes, upload.single("profilePicture"), updateNameAndImage);
 
 export default router;

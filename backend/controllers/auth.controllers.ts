@@ -8,9 +8,7 @@ import AsyncHandler from "../utils/AsyncHandler.ts";
 import uploadOnCloudnary from "../utils/cloudnary.ts";
 
 interface FileRequest extends Request {
-  files?: {
-    profilePicture?: Express.Multer.File[];
-  };
+  files?: Record<string, Express.Multer.File[]>;
 }
 
 interface UserDocument extends mongoose.Document {
@@ -31,24 +29,16 @@ const generateAccessAndRefreshToken = async (userId: mongoose.Types.ObjectId | s
 
 export const loginUser:RequestHandler = AsyncHandler(async (req, res): Promise<any> => {
   try {
-    const { walletAddress, userName } = req.body;
+    const { walletAddress } = req.body;
 
     if (!walletAddress) {
       throw new ApiError(400, "Wallet address is mandatory");
     }
 
-    let profilePictureLocalPath: string | null = null;
-    const reqWithFile = req as FileRequest;
-    if (reqWithFile.files?.profilePicture?.[0]?.path) {
-      profilePictureLocalPath = reqWithFile.files.profilePicture?.[0]?.path;
-    }
-    
-    const profilePicture = profilePictureLocalPath ? await uploadOnCloudnary(profilePictureLocalPath) : null;
-
     const existedUser = await User.findOne({ walletAddress });
 
     if (!existedUser) {
-      const newUser = await User.create({ walletAddress, userName: userName?.toLowerCase(), profilePicture });
+      const newUser = await User.create({ walletAddress});
       const { accessToken, refreshToken } = await generateAccessAndRefreshToken(newUser._id);
 
       const cookieOptions = {
@@ -85,3 +75,30 @@ export const loginUser:RequestHandler = AsyncHandler(async (req, res): Promise<a
     throw new ApiError(400, "Invalid user data");
   }
 });
+
+export const updateNameAndImage = AsyncHandler(async(req,res):Promise<any>=>{
+  const {userName} = req.body;
+
+  try {
+    const reqWithFile = req as FileRequest;
+    let profilePictureLocalPath = reqWithFile.files?.profilePicture?.[0].path;
+    let profilePicture = null;
+  
+    if (profilePictureLocalPath) {
+      profilePicture = await uploadOnCloudnary(profilePictureLocalPath); 
+    }
+  
+    const updatedUser = await User.findByIdAndUpdate(
+      req.user._id,
+      { userName, profilePicture },
+      { new: true }
+    );
+  
+    return res.status(200).json(
+      new ApiResponse(200, updatedUser, "User updated successfully")
+    )
+  } catch (error) {
+    console.log("ERROR WHILE UPDATING USER DATA", error);
+    throw new ApiError(409,"Internal server errror");
+  }
+})
