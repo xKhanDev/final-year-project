@@ -1,7 +1,7 @@
 import jwt, { JwtPayload } from 'jsonwebtoken';
 
 export const protectRoutes = (req:any, res:any, next:any) => {
-  const token = req.cookies.token || req.header('Authorization')?.split(' ')[1];
+  const token = req?.cookies.accessToken || req.header('Authorization')?.split(' ')[1];
   if (!token) return res.status(401).json({ message: 'Access Denied' });
 
   try {

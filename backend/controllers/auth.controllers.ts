@@ -1,4 +1,4 @@
-import { Request, RequestHandler } from "express";
+import { Request } from "express";
 import mongoose from "mongoose";
 
 import User from "../models/user.model.ts";
@@ -6,9 +6,10 @@ import ApiError from "../utils/ApiError.ts";
 import ApiResponse from "../utils/ApiResponse.ts";
 import AsyncHandler from "../utils/AsyncHandler.ts";
 import uploadOnCloudnary from "../utils/cloudnary.ts";
+import fileDeletion from "../utils/fileDeletion.ts";
 
 interface FileRequest extends Request {
-  files?: Record<string, Express.Multer.File[]>;
+  files?: { [fieldname: string]: Express.Multer.File[] };
 }
 
 interface UserDocument extends mongoose.Document {
@@ -27,7 +28,7 @@ const generateAccessAndRefreshToken = async (userId: mongoose.Types.ObjectId | s
   return { accessToken, refreshToken };
 };
 
-export const loginUser:RequestHandler = AsyncHandler(async (req, res): Promise<any> => {
+export const loginUser = AsyncHandler(async (req, res): Promise<any> => {
   try {
     const { walletAddress } = req.body;
 
@@ -81,15 +82,17 @@ export const updateNameAndImage = AsyncHandler(async(req,res):Promise<any>=>{
 
   try {
     const reqWithFile = req as FileRequest;
-    let profilePictureLocalPath = reqWithFile.files?.profilePicture?.[0].path;
+    let profilePictureLocalPath = reqWithFile?.files?.profilePicture[0]?.path;
     let profilePicture = null;
-  
+
     if (profilePictureLocalPath) {
-      profilePicture = await uploadOnCloudnary(profilePictureLocalPath); 
+      profilePicture = await uploadOnCloudnary(profilePictureLocalPath);
     }
+    
+    if(profilePicture?.url) fileDeletion(profilePictureLocalPath as string);
   
     const updatedUser = await User.findByIdAndUpdate(
-      req.user._id,
+      req.params.id,
       { userName, profilePicture },
       { new: true }
     );

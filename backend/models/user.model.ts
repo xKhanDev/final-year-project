@@ -17,6 +17,14 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  totalTokens: {
+    type: Number,
+    default: 0,
+  },
+  withdrawalTokens: {
+    type: Number,
+    default: 0,
+  },
   reportCount: {
     type: Number,
     default: 0,

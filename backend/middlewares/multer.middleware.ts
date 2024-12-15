@@ -1,15 +1,19 @@
-import multer, { StorageEngine } from "multer";
+import multer from "multer";
 import path from "path";
+import fs from "fs";
 
-// Define the storage engine
-const storage: StorageEngine = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, path.resolve(__dirname, "../../frontend/src/public/uploads"));
-      },
-      filename: function (req, file, cb) {
-        cb(null, file.originalname + '-' + Date.now())
-      }
+const storagePath = path.join(__dirname, "../../frontend/public/uploads");
+if(!fs.existsSync(storagePath)) fs.mkdirSync(storagePath);
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null,storagePath);
+  },
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now()}-${file.originalname}`);
+  }
 });
 
 // Create the multer upload middleware with the storage configuration
-export const upload = multer({ storage: storage });
+export const upload = multer({ storage });
+

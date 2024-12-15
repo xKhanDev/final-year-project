@@ -19,6 +19,7 @@ yarn-error.log*
 build/
 dist/
 .cache/
+public/uploads/*
 
 # Database files
 *.sqlite
